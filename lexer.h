@@ -122,6 +122,15 @@ void Lex::engageLex(){
                 tokenVector.emplace_back(LITERAL, literal);
             }
 
+            // Check for number literals
+            else if (isNumber(currentChar)) {
+                string literal;
+                literal += currentChar;
+                while (i + 1 < line.length() && isNumber(line[i + 1]))
+                    literal += line[++i];
+                tokenVector.emplace_back(LITERAL, literal);
+            }
+
             // Check for identifiers and keywords
             else if (isalpha(currentChar) || currentChar == '_') {
                 string word;
@@ -150,6 +159,5 @@ void Lex::engageLex(){
         }
     }
 
-//    tokenVector.emplace_back(IDENTIFIER, "word");
     inputFile.close();
 }
